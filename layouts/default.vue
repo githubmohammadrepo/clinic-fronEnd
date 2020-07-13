@@ -1,117 +1,193 @@
 <template>
-  <v-app dark>
+  <v-app id="inspire">
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
+      :clipped="$vuetify.breakpoint.lgAndUp"
       app
+      right
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
+      <v-list dense
+      align="center"
+      >
+        <template v-for="item in items">
+          <v-row
+            v-if="item.heading"
+            :key="item.heading"
+            align="center"
+          >
+            <v-col cols="6">
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-col>
+            <v-col
+              cols="6"
+              class="text-center"
+            >
+              <a
+                href="#!"
+                class="body-2 black--text"
+              >EDIT</a>
+            </v-col>
+          </v-row>
+          <v-list-group
+            v-else-if="item.children"
+            :key="item.text"
+            v-model="item.model"
+            :prepend-icon="item.model ? item.icon : item['icon-alt']"
+            append-icon=""
+            align="center"
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ item.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item
+              v-for="(child, i) in item.children"
+              :key="i"
+              link
+
+              @click="actionButton(child)"
+            >
+              <v-list-item-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ child.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+          <v-list-item
+            v-else
+            :key="item.text"
+            link
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.text }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
+
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
+      :clipped-right="$vuetify.breakpoint.lgAndUp"
       app
+      color="blue darken-3"
+      dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title
+        style="width: 300px"
+        class="ml-0 pl-4"
       >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+        <span class="hidden-sm-and-down">Google Contacts</span>
+      </v-toolbar-title>
+      <v-text-field
+        flat
+        solo-inverted
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        label="Search"
+        class="hidden-sm-and-down"
+      ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>mdi-apps</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-bell</v-icon>
       </v-btn>
       <v-btn
         icon
-        @click.stop="clipped = !clipped"
+        large
       >
-        <v-icon>mdi-application</v-icon>
+        <v-avatar
+          size="32px"
+          item
+        >
+          <v-img
+            src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
+            alt="Vuetify"
+          ></v-img></v-avatar>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+
     </v-app-bar>
-    <v-content>
-      <v-container>
-        <nuxt />
+    <v-main >
+      <v-container
+        class="fill-height"
+        fluid
+
+        @click.stop="hideDrawer"
+      >
+          <nuxt />
       </v-container>
-    </v-content>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
+    </v-main>
+    <v-btn
+      bottom
+      color="pink"
+      dark
+      fab
       fixed
+      right
+      @click="dialog = !dialog"
     >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :fixed="fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+
+
   </v-app>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
+  export default {
+    props: {
+      source: String,
+    },
+    data: () => ({
+      dialog: false,
+      drawer: null,
       items: [
+        { icon: 'mdi-contacts', text: 'کاربران' },
+        { icon: 'mdi-history', text: 'تعیین زمانبندی' },
+        { icon: 'mdi-message', text: 'ارسال پیامک' },
+        { icon: 'mdi-doctor', text: 'پزشکان' },
+        { icon: 'mdi-hospital', text: 'کلینیک ها' },
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
+          icon: 'mdi-chevron-up',
+          'icon-alt': 'mdi-chevron-down',
+          text: 'افزودن مشتری جدید',
+          model: false,
+          children: [
+            { icon: 'mdi-doctor', text: 'مطب جدید' ,identity:"new-office"},
+            { icon: 'mdi-hospital', text: 'کلینیک جدید',identity:"new-clinic" },
+          ],
         },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+
+
       ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+    }),
+    methods:{
+      hideDrawer(){
+        this.drawer=false;
+
+      },
+      actionButton(child){
+        if(child.identity=="new-office"){
+          this.$store.commit('openDialog')
+        }
+      }
     }
   }
-}
 </script>
