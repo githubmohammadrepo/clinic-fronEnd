@@ -1,10 +1,10 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-card color="teal accent-4" active-class>
+      <v-card  color="cyan darken-4" class="orange--text" active-class>
         <v-card-title align="center" color="pink lighten-2">
           <span class="headline mx-auto" >ثبت نام مطب جدید</span>
-        </v-card-title>
+        </v-card-title  >
         <v-card-text>
           <v-container>
             <v-form v-model="isValid">
@@ -12,7 +12,9 @@
                 <!-- firstname -->
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
+                    color="lime accent-4"
                     clearable
+                    class="custome-error--text"
                     label="نام"
                     hint="نام  خود را وارد کنید"
                     required
@@ -26,7 +28,9 @@
                 <!-- lastname -->
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
+                     color="lime accent-4"
                     clearable
+                    class="custome-error--text"
                     label="نام خانوادگی"
                     hint="نام خانوادگی خود را وارد کنید"
                     :rules="[value => !!value || 'نام خانوادگی باید وارد شود',rules.min3,rules.string]"
@@ -39,7 +43,9 @@
                 <!-- statename -->
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
+                     color="lime accent-4"
                     clearable
+                    class="custome-error--text"
                     label="استان"
                     hint="استان خود را وارد کنید"
                     required
@@ -53,9 +59,11 @@
                 <!-- cityname -->
                 <v-col cols="12" sm="6" md="6" class="d-r">
                   <v-text-field
+                    color="lime accent-4"
                     clearable
+                    class="custome-error--text"
                     label="نام شهر"
-                    class="d-r float-right"
+
                     hint="نام  شهر را وارد کنید"
                     required
                     :rules="[v => !!v || 'نام شهر باید وارد شود',rules.string,rules.min3]"
@@ -68,7 +76,9 @@
                 <!-- phone -->
                 <v-col cols="12">
                   <v-text-field
-                    clearable
+                     color="lime accent-4"
+
+                    class="custome-error--text"
                     label="تلفن مطب"
                     hint=" تلفن مطب را وارد کنید"
                     required
@@ -76,12 +86,16 @@
                     counter
                     maxlength="18"
                     v-model="office.phone"
-                  ></v-text-field>
+                    clearable >
+                    </v-text-field>
                 </v-col>
 
                 <!-- mobile -->
                 <v-col cols="12">
                   <v-text-field
+                  color="lime accent-4"
+
+                    class="custome-error--text"
                     clearable
                     label="تلفن دکتر"
                     hint="تلفن همراه دکتر را وارد کنید"
@@ -96,6 +110,9 @@
                 <!-- startWork -->
                 <v-col cols="6">
                   <v-text-field
+                  color="lime accent-4"
+
+                    class="custome-error--text"
                     label="نوبت کاری"
                     value="12:30:00"
                     type="time"
@@ -112,6 +129,9 @@
                 <!-- endWorkd -->
                 <v-col cols="6">
                   <v-text-field
+                  color="lime accent-4"
+
+                    class="custome-error--text"
                     label="نوبت کاری"
                     value="12:30:00"
                     hint="پایان نوبت کاری"
@@ -127,6 +147,9 @@
 
                 <v-col cols="12">
                   <v-text-field
+                  color="lime accent-4"
+
+                    class="input-group--focused custome-error--text"
                     :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, rules.min,rules.max]"
                     :type="show2 ? 'text' : 'password'"
@@ -134,7 +157,6 @@
                     label="رمز عبور"
                     hint="حداقل 8 کاراکتر را وارد کنید"
                     v-model="office.password"
-                    class="input-group--focused"
                     @click:append="show2 = !show2"
                   ></v-text-field>
                 </v-col>
@@ -142,6 +164,9 @@
                 <!-- age -->
                 <v-col cols="12" sm="6">
                   <v-select
+                  color="lime accent-4"
+
+                    class="custome-error--text"
                     :items="['0-17', '18-29', '30-54', '54+']"
                     label="سن"
                     required
@@ -155,6 +180,9 @@
                 <!-- profission -->
                 <v-col cols="12" sm="6">
                   <v-autocomplete
+                  color="lime accent-4"
+
+                    class="custome-error--text"
                     :items="['عمومی', 'متخصص', 'متخصص چشم','متخصص قلب و عروق','متخصص مغز و اعصاب','متخصص اعصاب و روان','متخصص بیهوشی','متخصص زیبایی','متخصص فیزیوتراپی','متخصص داخلی','متخصص گوش','متخصص استخوان','متخصص جنسی']"
                     label="تخصص"
                     :rules="[v => !!v || ' تخصص باید وارد شود',rules.string]"
@@ -168,6 +196,9 @@
                 <v-col cols="12">
                   <template>
                     <v-file-input
+                    color="lime accent-4"
+
+                    class="custome-error--text"
                       prepend-icon="mdi-camera"
                       label="اسکن مجوز مطب"
                       required
@@ -184,6 +215,9 @@
                 <v-col cols="12">
                   <template>
                     <v-file-input
+                    color="lime accent-4"
+
+                    class="custome-error--text"
                       prepend-icon="mdi-camera"
                       label="اسکن کارت ملی"
                       required
@@ -229,7 +263,7 @@ export default {
       password: "Password",
       rules: {
         required: value => !!value || "Required.",
-        min: v => v.length >= 8 || "حداقل هشت کاراکتر را وارد کنید",
+        min: value =>!value || value.length >= 8 || "حداقل هشت کاراکتر را وارد کنید",
         max: vl =>
           vl.length < 30 || "بیشترین کاراکتر نباید بیشتر از 30 کاراکتر باشد",
         fileRules: [
@@ -297,5 +331,10 @@ export default {
 
 
 <style lang="scss">
+.custome-error--text.error--text,
+.custome-error--text .error--text{
+  color: #db8008 !important;
+  caret-color: #8b2121 !important;
+}
 </style>
 
