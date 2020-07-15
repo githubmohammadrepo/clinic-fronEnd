@@ -145,6 +145,7 @@
                   ></v-text-field>
                 </v-col>
 
+                <!-- password -->
                 <v-col cols="12">
                   <v-text-field
                   color="lime accent-4"
@@ -185,7 +186,7 @@
                     class="custome-error--text"
                     :items="['عمومی', 'متخصص', 'متخصص چشم','متخصص قلب و عروق','متخصص مغز و اعصاب','متخصص اعصاب و روان','متخصص بیهوشی','متخصص زیبایی','متخصص فیزیوتراپی','متخصص داخلی','متخصص گوش','متخصص استخوان','متخصص جنسی']"
                     label="تخصص"
-                    :rules="[v => !!v || ' تخصص باید وارد شود',rules.string]"
+                    :rules="[v => !!v || ' تخصص باید وارد شود',rules.stringSpace]"
                     counter
                     maxlength="25"
                     v-model="office.profission"
@@ -262,7 +263,7 @@ export default {
       show2: true,
       password: "Password",
       rules: {
-        required: value => !!value || "Required.",
+        required: value => !!value || "فیلد باید پر شود.",
         min: value =>!value || value.length >= 8 || "حداقل هشت کاراکتر را وارد کنید",
         max: vl =>
           vl.length < 30 || "بیشترین کاراکتر نباید بیشتر از 30 کاراکتر باشد",
@@ -279,6 +280,12 @@ export default {
         min3: value => !value || value.length >= 3 || "باید حداقل 3 حرف باشد",
         string: value => {
           const regex = /([\d\s]+)/gmi;
+          let exec =(regex.exec(value) == null)
+          console.log(exec)
+          return exec || 'باید فقط حروف وارد شود'
+        },
+        stringSpace: value => {
+          const regex = /([\d]+)/gmi;
           let exec =(regex.exec(value) == null)
           console.log(exec)
           return exec || 'باید فقط حروف وارد شود'
