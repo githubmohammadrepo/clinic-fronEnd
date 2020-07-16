@@ -4,8 +4,6 @@ export const state = () => ({
   startSendCreateOffice:true,
   doneSendCreateOffice:true,
   showAlert:false
-
-
 })
 
 export const mutations = {
@@ -47,7 +45,6 @@ export const mutations = {
 
 export const actions = {
   createNewOffice(context,officeData){
-      context.commit('changeShowAlert',true)
       context.commit('start')
 
       axios.post('https://jsonplaceholder.typicode.com/posts', {
@@ -60,16 +57,25 @@ export const actions = {
         context.doneSendCreateOffice = true;
         console.log(response);
         context.commit('end')
+        context.commit('changeShowAlert',true)
 
         // close form create new office
         setTimeout(() => {
           context.commit('closeNewOfficeForm')
+          context.commit('changeShowAlert',false)
+
         }, 3000);
 
       }, 5000);
     })
     .catch((error) =>{
       context.commit('done')
+      context.commit('changeShowAlert',true)
+      setTimeout(() => {
+        context.commit('changeShowAlert',false)
+        context.commit('openNewOfficeForm')
+
+      }, 3000);
       console.log(error)
 
     });
