@@ -2,6 +2,7 @@
     <div>
       <newOffice  />
       <newClinic  />
+      <newAgency />
       <v-list>
         <v-list-item
           v-for="item in lists"
@@ -51,10 +52,12 @@
 <script>
 import newOffice from '~/components/office/newOffice'
 import newClinic from '~/components/clinic/newClinic'
+import newAgency from '~/components/agency/newAgency'
   export default {
     components:{
       newOffice,
-      newClinic
+      newClinic,
+      newAgency
     },
   data(){
     return {

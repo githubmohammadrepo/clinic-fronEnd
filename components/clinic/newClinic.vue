@@ -207,7 +207,7 @@
                       :rules="rules.fileRules"
                       show-size
                       counter
-                      accept="image/*"
+                      accept="image/*;capture=camera"
                       v-model="clinic.credential"
                     ></v-file-input>
                   </template>
@@ -225,7 +225,7 @@
                       :rules="rules.fileRules"
                       show-size
                       counter
-                      accept="image/*"
+                      accept="image/*;capture=camera"
                       v-model="clinic.nationalCard"
                     ></v-file-input>
                   </template>

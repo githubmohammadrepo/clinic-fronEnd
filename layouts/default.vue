@@ -171,6 +171,7 @@
           children: [
             { icon: 'mdi-doctor', text: 'مطب جدید' ,identity:"new-office"},
             { icon: 'mdi-hospital', text: 'کلینیک جدید',identity:"new-clinic" },
+            { icon: 'mdi-account-star', text: 'نمایندگی جدید',identity:"new-agency" },
           ],
         },
 
@@ -190,6 +191,10 @@
         }else if(child.identity=="new-clinic"){
 
           this.$store.commit('clinic/openNewClinicForm')
+
+        }else if(child.identity=="new-agency"){
+
+          this.$store.commit('agency/openNewAgencyForm')
 
         }else {
 
