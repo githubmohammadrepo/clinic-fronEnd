@@ -146,7 +146,6 @@
       <v-icon>mdi-plus</v-icon>
     </v-btn>
 
-
   </v-app>
 </template>
 
@@ -185,7 +184,15 @@
       },
       actionButton(child){
         if(child.identity=="new-office"){
+
           this.$store.commit('office/openNewOfficeForm')
+
+        }else if(child.identity=="new-clinic"){
+
+          this.$store.commit('clinic/openNewClinicForm')
+
+        }else {
+
         }
       }
     }

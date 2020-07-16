@@ -1,6 +1,7 @@
 <template>
     <div>
       <newOffice  />
+      <newClinic  />
       <v-list>
         <v-list-item
           v-for="item in lists"
@@ -49,9 +50,11 @@
 
 <script>
 import newOffice from '~/components/office/newOffice'
+import newClinic from '~/components/clinic/newClinic'
   export default {
     components:{
-      newOffice
+      newOffice,
+      newClinic
     },
   data(){
     return {

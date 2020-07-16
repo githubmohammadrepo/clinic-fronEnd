@@ -10,24 +10,15 @@
        v-scroll:#scroll-target="onTop"
     >
 
-   <v-alert
+    <v-alert
       border="right"
       :color="alertColor"
       dark
       align="center"
       v-if="showAlert"
-      class="dir-rtl"
     >
-      <v-btn
-        color="indigo lighten-1"
-        background-color="lime darken-4"
-        class="float-right"
-        @click="closeDialog"
-      >x</v-btn>
-
       {{errorMessage}}
     </v-alert>
-
 
 
 
@@ -35,7 +26,7 @@
         color="cyan darken-4"
         class="orange--text"
         active-class
-        v-if="!showAlert"
+
       >
         <v-card-title align="center" color="pink lighten-2">
           <span class="headline mx-auto">ثبت نام مطب جدید</span>
@@ -140,7 +131,7 @@
                 </v-col>
 
                 <!-- startWork -->
-                <v-col cols="6">
+                <v-col  md="6" sm="12">
                   <v-text-field
                     color="lime accent-4"
                     class="custome-error--text"
@@ -158,7 +149,7 @@
                 </v-col>
 
                 <!-- endWorkd -->
-                <v-col cols="6">
+                <v-col  md="6" sm="12">
                   <v-text-field
                     color="lime accent-4"
                     class="custome-error--text"
@@ -278,6 +269,7 @@
           >Save</v-btn>
         </v-card-actions>
       </v-card>
+
 
 
 
@@ -432,10 +424,6 @@ export default {
 .custome-error--text .error--text {
   color: #db8008 !important;
   caret-color: #8b2121 !important;
-}
-
-.dir-rtl{
-  direction:rtl !important;
 }
 </style>
 
