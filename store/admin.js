@@ -14,5 +14,10 @@ export const mutations = {
   },
   toggle (state, todo) {
     todo.done = !todo.done
+  },
+  makeDone(state,list){
+    let index =state.list.indexOf(list);
+    list.done = !list.done;
+    state[index]=list;
   }
 }

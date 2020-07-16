@@ -185,7 +185,7 @@
       },
       actionButton(child){
         if(child.identity=="new-office"){
-          this.$store.commit('openDialog')
+          this.$store.commit('office/openNewOfficeForm')
         }
       }
     }

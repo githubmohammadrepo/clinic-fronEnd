@@ -1,5 +1,5 @@
 export const state = () => ({
-  counter:false 
+  name:"mohammad"
 })
 
 export const mutations = {
@@ -8,5 +8,12 @@ export const mutations = {
   },
   closeDialog (state) {
     state.counter= false;
+  }
+}
+
+
+export const getters = {
+  getName: (state) => {
+    return state.name
   }
 }

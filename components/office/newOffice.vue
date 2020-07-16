@@ -1,10 +1,36 @@
 <template>
-  <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-card  color="cyan darken-4" class="orange--text" active-class>
+  <v-row justify="center"  id="scroll-target"
+       class="overflow-y-auto" >
+    <v-dialog
+      ref="dialog"
+      v-model="dialog"
+      persistent
+      max-width="600px"
+
+       v-scroll:#scroll-target="onTop"
+    >
+
+    <v-alert
+      border="right"
+      :color="alertColor"
+      dark
+      align="center"
+      v-if="showAlert"
+    >
+      {{errorMessage}}
+    </v-alert>
+
+
+
+      <v-card
+        color="cyan darken-4"
+        class="orange--text"
+        active-class
+
+      >
         <v-card-title align="center" color="pink lighten-2">
-          <span class="headline mx-auto" >ثبت نام مطب جدید</span>
-        </v-card-title  >
+          <span class="headline mx-auto">ثبت نام مطب جدید</span>
+        </v-card-title>
         <v-card-text>
           <v-container>
             <v-form v-model="isValid">
@@ -28,7 +54,7 @@
                 <!-- lastname -->
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
-                     color="lime accent-4"
+                    color="lime accent-4"
                     clearable
                     class="custome-error--text"
                     label="نام خانوادگی"
@@ -43,7 +69,7 @@
                 <!-- statename -->
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
-                     color="lime accent-4"
+                    color="lime accent-4"
                     clearable
                     class="custome-error--text"
                     label="استان"
@@ -63,7 +89,6 @@
                     clearable
                     class="custome-error--text"
                     label="نام شهر"
-
                     hint="نام  شهر را وارد کنید"
                     required
                     :rules="[v => !!v || 'نام شهر باید وارد شود',rules.string,rules.min3]"
@@ -76,8 +101,7 @@
                 <!-- phone -->
                 <v-col cols="12">
                   <v-text-field
-                     color="lime accent-4"
-
+                    color="lime accent-4"
                     class="custome-error--text"
                     label="تلفن مطب"
                     hint=" تلفن مطب را وارد کنید"
@@ -86,15 +110,14 @@
                     counter
                     maxlength="18"
                     v-model="office.phone"
-                    clearable >
-                    </v-text-field>
+                    clearable
+                  ></v-text-field>
                 </v-col>
 
                 <!-- mobile -->
                 <v-col cols="12">
                   <v-text-field
-                  color="lime accent-4"
-
+                    color="lime accent-4"
                     class="custome-error--text"
                     clearable
                     label="تلفن دکتر"
@@ -110,8 +133,7 @@
                 <!-- startWork -->
                 <v-col cols="6">
                   <v-text-field
-                  color="lime accent-4"
-
+                    color="lime accent-4"
                     class="custome-error--text"
                     label="نوبت کاری"
                     value="12:30:00"
@@ -129,8 +151,7 @@
                 <!-- endWorkd -->
                 <v-col cols="6">
                   <v-text-field
-                  color="lime accent-4"
-
+                    color="lime accent-4"
                     class="custome-error--text"
                     label="نوبت کاری"
                     value="12:30:00"
@@ -148,8 +169,7 @@
                 <!-- password -->
                 <v-col cols="12">
                   <v-text-field
-                  color="lime accent-4"
-
+                    color="lime accent-4"
                     class="input-group--focused custome-error--text"
                     :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, rules.min,rules.max]"
@@ -165,8 +185,7 @@
                 <!-- age -->
                 <v-col cols="12" sm="6">
                   <v-select
-                  color="lime accent-4"
-
+                    color="lime accent-4"
                     class="custome-error--text"
                     :items="['0-17', '18-29', '30-54', '54+']"
                     label="سن"
@@ -181,8 +200,7 @@
                 <!-- profission -->
                 <v-col cols="12" sm="6">
                   <v-autocomplete
-                  color="lime accent-4"
-
+                    color="lime accent-4"
                     class="custome-error--text"
                     :items="['عمومی', 'متخصص', 'متخصص چشم','متخصص قلب و عروق','متخصص مغز و اعصاب','متخصص اعصاب و روان','متخصص بیهوشی','متخصص زیبایی','متخصص فیزیوتراپی','متخصص داخلی','متخصص گوش','متخصص استخوان','متخصص جنسی']"
                     label="تخصص"
@@ -197,9 +215,8 @@
                 <v-col cols="12">
                   <template>
                     <v-file-input
-                    color="lime accent-4"
-
-                    class="custome-error--text"
+                      color="lime accent-4"
+                      class="custome-error--text"
                       prepend-icon="mdi-camera"
                       label="اسکن مجوز مطب"
                       required
@@ -216,9 +233,8 @@
                 <v-col cols="12">
                   <template>
                     <v-file-input
-                    color="lime accent-4"
-
-                    class="custome-error--text"
+                      color="lime accent-4"
+                      class="custome-error--text"
                       prepend-icon="mdi-camera"
                       label="اسکن کارت ملی"
                       required
@@ -236,35 +252,55 @@
         </v-card-text>
         <v-card-actions>
           <!-- <v-spacer></v-spacer> -->
-          <v-btn color="red darken-1" background-color="pink darken-1" class="mx-auto"  width="30%"  @click="closeDialog">Close</v-btn>
-          <v-btn color="deep-orange" active-class="light-green accent-3" class="mx-auto" grow width="30%" @click="openDialog">Save</v-btn>
+          <v-btn
+            color="red darken-1"
+            background-color="pink darken-1"
+            class="mx-auto"
+            width="30%"
+            @click="closeDialog"
+          >Close</v-btn>
+          <v-btn
+            color="deep-orange"
+            active-class="light-green accent-3"
+            class="mx-auto"
+            grow
+            width="30%"
+            @click="saveNewOffice"
+          >Save</v-btn>
         </v-card-actions>
       </v-card>
+
+
+
+
+
     </v-dialog>
+
+    <v-dialog v-model="createStatus" max-width="65px">
+      <v-card height="65">
+        <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+      </v-card>
+    </v-dialog>
+
+
+
+
+
   </v-row>
 </template>
 
 <script>
-import newClinickVue from "../newClinick.vue";
 export default {
-  computed: {
-    dialog: {
-      get() {
-        return this.$store.state.counter;
-      },
-      set(value) {
-        this.$store.commit("openDialog");
-      }
-    }
-  },
 
   data() {
     return {
+      fab: true,
       show2: true,
       password: "Password",
       rules: {
         required: value => !!value || "فیلد باید پر شود.",
-        min: value =>!value || value.length >= 8 || "حداقل هشت کاراکتر را وارد کنید",
+        min: value =>
+          !value || value.length >= 8 || "حداقل هشت کاراکتر را وارد کنید",
         max: vl =>
           vl.length < 30 || "بیشترین کاراکتر نباید بیشتر از 30 کاراکتر باشد",
         fileRules: [
@@ -279,22 +315,22 @@ export default {
         firstName: value => !!value || "نام باید وارد شود",
         min3: value => !value || value.length >= 3 || "باید حداقل 3 حرف باشد",
         string: value => {
-          const regex = /([\d\s]+)/gmi;
-          let exec =(regex.exec(value) == null)
-          console.log(exec)
-          return exec || 'باید فقط حروف وارد شود'
+          const regex = /([\d\s]+)/gim;
+          let exec = regex.exec(value) == null;
+          console.log(exec);
+          return exec || "باید فقط حروف وارد شود";
         },
         stringSpace: value => {
-          const regex = /([\d]+)/gmi;
-          let exec =(regex.exec(value) == null)
-          console.log(exec)
-          return exec || 'باید فقط حروف وارد شود'
+          const regex = /([\d]+)/gim;
+          let exec = regex.exec(value) == null;
+          console.log(exec);
+          return exec || "باید فقط حروف وارد شود";
         },
         number: value => {
-          const regex = /([\D\s]+)/gmi;
-          let exec =(regex.exec(value) == null)
-          console.log(exec)
-          return exec || 'باید فقط عدد وارد شود'
+          const regex = /([\D\s]+)/gim;
+          let exec = regex.exec(value) == null;
+          console.log(exec);
+          return exec || "باید فقط عدد وارد شود";
         }
       },
       v: "",
@@ -314,24 +350,70 @@ export default {
       },
       isValid: true,
 
-      test: null,
-
+     errorMessage:null,
+     alertColor:null,
     };
   },
+    computed: {
+    dialog: {
+      get() {
+        return this.$store.state.office.showNewOfficeForm;
+      },
+      set(value) {
+        this.$store.commit("office/openNewOfficeForm");
+      }
+    },
+    createStatus() {
+      let status= this.$store.getters['office/getName'];
+      console.log(status)
+      this.scrollop()
+      if(status.start ==true && status.end==false){
+        console.log(1)
+        this.errorMessage = 'ثبت مطب جدید با خطا مواجه شد'
+        this.alertColor='pink'
+        return true;
+      }else if(status.start==false && status.end ==true){
+        console.log(2)
+        this.errorMessage = 'مطب جدید با موفقیت ثبت شد'
+        this.alertColor='success'
+        return false;
+      }else if(status.start==true && status.end ==true){
+        console.log(3)
+        this.errorMessage =null
+        this.alertColor='white'
+        return false;
+      }
+      else{
+        this.errorMessage = 'ثبت مطب جدید با خطا مواجه شد'
+        this.alertColor='pink'
+        return false;
+      }
+    },
+    showAlert(){
+      return  this.$store.state.office.showAlert
+    }
+  },
+
   methods: {
     closeDialog() {
-      this.$store.commit("closeDialog");
+      this.$store.commit("office/closeNewOfficeForm");
     },
     openDialog() {
-      this.$store.commit("openDialog");
+      this.$store.commit("office/openNewOfficeForm");
     },
-    RuleString(value){
+    // save office
+    saveNewOffice() {
+      this.$store.dispatch("office/createNewOffice", "one");
+    },
+    scrollop (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    },
 
-
+    onTop () {
+      console.log('hi')
+    }
 
   }
-
-},
 
 };
 </script>
@@ -339,7 +421,7 @@ export default {
 
 <style lang="scss">
 .custome-error--text.error--text,
-.custome-error--text .error--text{
+.custome-error--text .error--text {
   color: #db8008 !important;
   caret-color: #8b2121 !important;
 }
