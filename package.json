@@ -5,13 +5,15 @@
   "author": "&#34;Mohammad Ravand - Farhad Haqhshnas&#34;",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname localhost --port 8080",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/proxy": "^2.0.1",
     "axios": "^0.19.2",
     "nuxt": "^2.0.0"
   },

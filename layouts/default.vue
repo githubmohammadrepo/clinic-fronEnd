@@ -39,7 +39,8 @@
             align="center"
           >
             <template v-slot:activator>
-              <v-list-item-content>
+              <v-list-item-content
+              >
                 <v-list-item-title>
                   {{ item.text }}
                 </v-list-item-title>
@@ -66,6 +67,8 @@
             v-else
             :key="item.text"
             link
+            @click="sidebarBtnAction(item)"
+
           >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -77,6 +80,7 @@
             </v-list-item-content>
           </v-list-item>
         </template>
+
       </v-list>
     </v-navigation-drawer>
 
@@ -158,6 +162,8 @@
       dialog: false,
       drawer: null,
       items: [
+        { icon: 'mdi-account', text: 'ورود',identity:"login" },
+        { icon: 'mdi-login', text: 'ثبت نام',identity:"signup" },
         { icon: 'mdi-contacts', text: 'کاربران' },
         { icon: 'mdi-history', text: 'تعیین زمانبندی' },
         { icon: 'mdi-message', text: 'ارسال پیامک' },
@@ -198,6 +204,13 @@
 
         }else {
 
+        }
+      },
+      sidebarBtnAction(item){
+        if(item.identity=='login'){
+          this.$router.push('login')
+        }else{
+          //do nothin
         }
       }
     }

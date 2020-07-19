@@ -43,12 +43,52 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/proxy'
+
   ],
+  proxy: {
+    '/sanctum/csrf-cookie': {
+      target: 'http://localhost:80/sanctum/csrf-cookie',
+      pathRewrite: {
+        '^/sanctum' : '/'
+        }
+      },
+
+      '/api': {
+        target: 'http://localhost:80',
+        pathRewrite: {
+          '^/api' : '/'
+          }
+        },
+
+  },
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/login', method: 'post', propertyName: false },
+          user: { url: '/api/user', method: 'get', propertyName: false }
+        },
+        tokenRequired: false,
+        tokenType: false
+      }
+    },
+    localStorage: false
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: "http://localhost",
+    credentials: true
   },
   /*
   ** vuetify module configuration

@@ -21,37 +21,43 @@
 <script>
 import axios from "axios";
 export default {
-  asyncData({
-    isDev,
-    route,
-    store,
-    env,
-    params,
-    query,
-    req,
-    res,
-    redirect,
-    error
-  }) {
+  // asyncData({
+  //   isDev,
+  //   route,
+  //   store,
+  //   env,
+  //   params,
+  //   query,
+  //   req,
+  //   res,
+  //   redirect,
+  //   error
+  // }) {
 
-     return axios.get(`https://jsonplaceholder.typicode.com/posts`)
-     .then(response => {
-       let result = response.data;
-      for (const value in result) {
-        result[value].title = result[value].title.substr(0,18)+' ...'
-        result[value].body = result[value].body.substr(0,55)+' ...'
-      }
-      return {posts:result}
-     })
-     .catch(e => {
-       console.log(e)
-     })
+  //   return axios.get(`https://jsonplaceholder.typicode.com/posts`)
+  //    .then(response => {
+  //      let result = response.data;
+  //         for (const value in result) {
+  //           result[value].title = result[value].title.substr(0,18)+' ...'
+  //           result[value].body = result[value].body.substr(0,55)+' ...'
+  //         }
+  //         return {posts:result}
+  //       })
+  //    .catch(e => {
+  //      console.log(e)
+  //    })
 
 
-  },
+  // },
 
   computed: {
+    // posts(){
+    //   return this.$store.getters['test/getPosts']
+    // }
+  },
 
+  created() {
+    // this.$store.dispatch('test/fetchPosts')
   },
   }
 
