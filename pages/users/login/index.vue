@@ -5,7 +5,7 @@
         <v-toolbar color="primary" dark flat>
           <v-toolbar-title>Login form</v-toolbar-title>
           <v-spacer></v-spacer>
-          
+
         </v-toolbar>
         <v-card-text>
           <v-form>

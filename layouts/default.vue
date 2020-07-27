@@ -38,7 +38,8 @@
             append-icon=""
             align="center"
           >
-            <template v-slot:activator>
+
+            <template v-slot:activator >
               <v-list-item-content
               >
                 <v-list-item-title>
@@ -138,6 +139,7 @@
           <nuxt />
       </v-container>
     </v-main>
+        
     <v-btn
       bottom
       color="pink"
@@ -154,65 +156,74 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
+import register from '~/components/users/register'
+import login from '~/components/users/login'
+
+export default {
+  components:{
+    register,
+    login
+  },
+  props: {
+    source: String,
+  },
+  data: () => ({
+    dialog: false,
+    drawer: null,
+    items: [
+      { icon: 'mdi-account', text: 'ورود',identity:"login" },
+      { icon: 'mdi-login', text: 'ثبت نام',identity:"signup" },
+      { icon: 'mdi-contacts', text: 'کاربران' },
+      { icon: 'mdi-history', text: 'تعیین زمانبندی' },
+      { icon: 'mdi-message', text: 'ارسال پیامک' },
+      { icon: 'mdi-doctor', text: 'پزشکان' },
+      { icon: 'mdi-hospital', text: 'کلینیک ها' },
+      {
+        icon: 'mdi-chevron-up',
+        'icon-alt': 'mdi-chevron-down',
+        text: 'افزودن مشتری جدید',
+        model: false,
+        children: [
+          { icon: 'mdi-doctor', text: 'مطب جدید' ,identity:"new-office"},
+          { icon: 'mdi-hospital', text: 'کلینیک جدید',identity:"new-clinic" },
+          { icon: 'mdi-account-star', text: 'نمایندگی جدید',identity:"new-agency" },
+        ],
+      },
+
+
+    ],
+  }),
+  methods:{
+    hideDrawer(){
+      this.drawer=false;
+
     },
-    data: () => ({
-      dialog: false,
-      drawer: null,
-      items: [
-        { icon: 'mdi-account', text: 'ورود',identity:"login" },
-        { icon: 'mdi-login', text: 'ثبت نام',identity:"signup" },
-        { icon: 'mdi-contacts', text: 'کاربران' },
-        { icon: 'mdi-history', text: 'تعیین زمانبندی' },
-        { icon: 'mdi-message', text: 'ارسال پیامک' },
-        { icon: 'mdi-doctor', text: 'پزشکان' },
-        { icon: 'mdi-hospital', text: 'کلینیک ها' },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'افزودن مشتری جدید',
-          model: false,
-          children: [
-            { icon: 'mdi-doctor', text: 'مطب جدید' ,identity:"new-office"},
-            { icon: 'mdi-hospital', text: 'کلینیک جدید',identity:"new-clinic" },
-            { icon: 'mdi-account-star', text: 'نمایندگی جدید',identity:"new-agency" },
-          ],
-        },
+    actionButton(child){
+      if(child.identity=="new-office"){
 
+        this.$store.commit('office/openNewOfficeForm')
 
-      ],
-    }),
-    methods:{
-      hideDrawer(){
-        this.drawer=false;
+      }else if(child.identity=="new-clinic"){
 
-      },
-      actionButton(child){
-        if(child.identity=="new-office"){
+        this.$store.commit('clinic/openNewClinicForm')
 
-          this.$store.commit('office/openNewOfficeForm')
+      }else if(child.identity=="new-agency"){
 
-        }else if(child.identity=="new-clinic"){
+        this.$store.commit('agency/openNewAgencyForm')
 
-          this.$store.commit('clinic/openNewClinicForm')
+      }else {
 
-        }else if(child.identity=="new-agency"){
+      }
+    },
+    sidebarBtnAction(item){
+      if(item.identity=='login'){
+        this.$router.push('login')
+      }else if(item.identity=="signup"){
+        this.$store.commit('user/openNewUserForm')
+      }else{
 
-          this.$store.commit('agency/openNewAgencyForm')
-
-        }else {
-
-        }
-      },
-      sidebarBtnAction(item){
-        if(item.identity=='login'){
-          this.$router.push('login')
-        }else{
-          //do nothin
-        }
       }
     }
   }
+}
 </script>

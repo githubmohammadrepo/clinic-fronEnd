@@ -1,8 +1,6 @@
 <template>
   <div class="flex h-screen bg-light items-center justify-center">
-      <h1 class="font-semibold mb-2 text-xl">
-        Login
-      </h1>
+    <h1 class="font-semibold mb-2 text-xl">Login</h1>
     <form ref="loginform" @submit.prevent="login()" class="w-1/4 mx-auto p-4">
       <div class="mb-4">
         <label for="email" class="block mb-1 text-sm">Email</label>
@@ -26,79 +24,64 @@
       </div>
       <div class="submit">
         <button
-        type="submit"
-        class="bg-blue-500 text-white font-semibold py-2 px-10 w-full rounded"
-      >
-        Login
-      </button>
+          type="submit"
+          class="bg-blue-500 text-white font-semibold py-2 px-10 w-full rounded"
+        >Login</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        error: {},
-        email:'',
-        password:''
-      };
+export default {
+  data() {
+    return {
+      error: {},
+      email: "mohammad@gmail.com",
+      password: "mohammad",
+    };
+  },
+  mounted() {
+    // Before loading login page, obtain csrf cookie from the server.
+  },
+  methods: {
+    async login() {
+      let form = { email: this.email, password: this.password };
+      this.error = {};
+      try {
+        let res = await this.$axios.$post('http://localhost:80/api/auth/login',{...form})
+        console.log(res)
+      } catch (err) {
+        console.log(err)
+        // do something with error
+      }
     },
-    mounted() {
-      // Before loading login page, obtain csrf cookie from the server.
-
-    },
-    methods: {
-      async login() {
-        let form = {email:this.email,password:this.password}
-        this.error = {};
-        try {
-          // Prepare form data
-          this.$axios.get('http://localhost:80/sanctum/csrf-cookie')
-           this.$axios.post('http://localhost:80/login',form)
-           .then(data => {
-            console.log(data)
-          }).catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-
-
-
-
-        }
-
-        catch (err) {
-          this.error = err;
-          // do something with error
-        }
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style scoped lang="scss">
-.bg-light{
+.bg-light {
   text-align: center;
-  background:rgb(73, 61, 61) !important;
-  & form  {
+  background: rgb(73, 61, 61) !important;
+  & form {
     text-align: left;
-    padding:12px 12px;
+    padding: 12px 12px;
     width: 50%;
     margin: auto;
     background-color: rgb(126, 49, 49) !important;
-    & input,& input:hover & input:active{
-      width:100%;
-      border:1px solid yellow;
-      border-color:green;
-      box-shadow:green;
+    & input,
+    & input:hover & input:active {
+      width: 100%;
+      border: 1px solid yellow;
+      border-color: green;
+      box-shadow: green;
     }
 
-    & div.submit{
+    & div.submit {
       display: flex;
-      & button[type="submit"]{
-        margin:auto;
+      & button[type="submit"] {
+        margin: auto;
         background-color: cyan;
       }
     }
