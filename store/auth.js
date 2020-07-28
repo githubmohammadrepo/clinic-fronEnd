@@ -87,15 +87,55 @@ export const mutations = {
 
 // dispatch action
 export const actions = {
-  async loginAuth(context,payload) {
-    alert("login")
+ // loginAuth user
+  async loginAuth(context,payload){
+    //clear auth user
+    context.commit('clearAuth')
+
+    //open dilog
+    context.commit("openDialog");
+
+    //set start process to true
+    context.commit('setStartProcess',true);
+
+    //set end process to false
+    context.commit('setEndProcess',false);
+
+
+    //clear errors
+    context.commit('clearErrors');
+    context.commit('clearSuccess');
+    context.commit('clearErrorMessage')
+
+    let form = {
+      'name': payload.name,
+      'email': payload.email,
+      'password': payload.password,
+      'password_confirmation': payload.password_confirmation,
+    }
     try {
-      let form = {
-        'email': payload.email,
-        'password': payload.password,
+      let response = await this.$axios.$post('http://localhost:80/api/auth/login', { ...form })
+
+      //set start process to false
+      context.commit('setStartProcess',false);
+
+      //set end process to true
+      context.commit('setEndProcess',true);
+
+      if(response.access_token==null){
+        //show error
+        context.commit('addErors',{...response})
+        context.commit('addErrorMessage','please fill form correctly')
+      }else{
+        //success register
+        context.commit('addSuccess','you successfully registereed');
+
+        setTimeout(() => {
+          context.commit('closeDialog');
+          this.$router.push('/')
+        }, 3000);
+
       }
-      let response = await this.$axios.$post( 'http://localhost:80/api/auth/login',{ ...form })
-      context.commit("openDialog");
       context.commit("add",response)
     } catch (error) {
       console.log(error)
