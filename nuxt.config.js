@@ -43,7 +43,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
 
   ],
   proxy: {
@@ -68,8 +68,10 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: "http://localhost:80",
-    credentials: true
+    baseURL: "http://localhost:80/api",
+    credentials: true,
+    proxy: true,
+    proxyHeaders: true
   },
   /*
   ** vuetify module configuration
