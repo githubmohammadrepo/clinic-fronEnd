@@ -1,6 +1,6 @@
 // plugins/vuex-persistedstate.js
 import createPersistedState from 'vuex-persistedstate'
-
+import Cookies from 'js-cookie'
 const NAME_SPACE = 'auth'
 
 export default ({ store, isHMR }) => {
@@ -11,4 +11,6 @@ export default ({ store, isHMR }) => {
       paths: ['auth', 'test'],
     })(store)
   }
+
 }
+

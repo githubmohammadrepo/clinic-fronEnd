@@ -83,15 +83,33 @@ export const mutations = {
     localStorage.removeItem('token_type')
     localStorage.removeItem('expires_in')
 
-  }
+  },
+
 
 
 
 
 }
 
-// dispatch action
+//get new token or refresh token on the server 
 export const actions = {
+  async me(context,payload) {
+    console.log('before ' +context.state.auth )
+    console.log('payload:' + payload.access_token)
+    let result =await this.$axios.$post('http://localhost:80/api/auth/refresh',{token:payload.access_token})
+    if(result){
+      context.commit('add',result)
+    }
+
+    console.log('after ' +context.state.auth )
+
+  },
+
+  nuxtServerInit (context,payload) {
+    console.log('hi from some where'+payload)
+      // context.dispatch('auth/loginAuth',{email:this.email,password:this.password})
+  },
+
   async loginAuth(context,payload) {
     try {
       let form = {

@@ -70,7 +70,7 @@ export default {
       return this.$store.getters['auth/authData'];
 
     }
-  },
+  }
 
 }
 </script>

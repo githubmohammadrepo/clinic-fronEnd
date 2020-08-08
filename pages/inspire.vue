@@ -51,6 +51,7 @@
       </v-col>
     </v-row>
     <p>auth: {{auth}}</p>
+    <p>cookie: {{cookie}}</p>
     <ul>
       <li v-for="user in users" :key="user.id">{{user.name}}</li>
     </ul>
@@ -61,16 +62,15 @@
 
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   data(){
     return {
       email:'admin@gmail.com',
       password:'mohammad',
-
       users:Array()
     }
   },
-  middleware:'inspire',
   computed: {
     count() {
       return this.$store.state.auth.count;
@@ -78,6 +78,9 @@ export default {
     auth(){
       return this.$store.state.auth.auth;
     },
+    cookie(){
+      return Cookies.get('auth')
+    }
   },
   methods: {
     increment() {
@@ -95,6 +98,9 @@ export default {
       users = users.data;
       this.users = users;
     }
+  },
+  mounted(){
+    this.$store.dispatch('auth/me',this.auth)
   }
 }
 </script>
