@@ -89,6 +89,17 @@ export const mutations = {
 
 // dispatch action
 export const actions = {
+  async me(context,payload) {
+    console.log('before ' +context.state.auth )
+    console.log('payload:' + payload.access_token)
+    let result =await this.$axios.$post('http://localhost:80/api/auth/refresh',{token:payload.access_token})
+    if(result){
+      context.commit('add',result)
+    }
+
+    console.log('after ' +context.state.auth )
+
+  },
  // loginAuth user
   async loginAuth(context,payload){
     //clear auth user
