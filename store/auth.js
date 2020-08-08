@@ -2,6 +2,7 @@ import Cookie from 'js-cookie'
 
 export const state = () => ({
   auth:{},
+  showPageContent:false,
   showDialog: false,
   errors: {},
   errorMessage: null,
@@ -194,7 +195,7 @@ export const actions = {
 
       //set end process to true
       context.commit('setEndProcess',true);
-
+      console.log(response)
       if(response.access_token==null){
         //show error
         context.commit('addErors',{...response})
@@ -242,17 +243,17 @@ export const getters = {
     expires = new Date().getTime() + Number.parseInt(expires)
 
     if(new Date().getTime() >= expires){
-      //remove data from cookie
-      // if(process.client){
-      //   localStorage.removeItem('access_token')
-      //   localStorage.removeItem('token_type')
-      //   localStorage.removeItem('expires_in')
-      // }
-      // if (process.server) {
-      //   Cookie.remove('access_token')
-      //   Cookie.remove('token_type')
-      //   Cookie.remove('expires_in')
-      // }
+      // remove data from cookie
+      if(process.client){
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('token_type')
+        localStorage.removeItem('expires_in')
+      }
+      if (process.server) {
+        Cookie.remove('access_token')
+        Cookie.remove('token_type')
+        Cookie.remove('expires_in')
+      }
       state.commit('clearAuth')
       //redirecto to login page or register page
       this.$router.push('/users/enterUser')

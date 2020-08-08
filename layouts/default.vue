@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" v-show="showPage">
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -9,7 +9,7 @@
       <v-list dense
       align="center"
       >
-        <template v-for="item in items">
+        <template v-for="item in filtedItems">
           <v-row
             v-if="item.heading"
             :key="item.heading"
@@ -69,9 +69,8 @@
             :key="item.text"
             link
             @click="sidebarBtnAction(item)"
-
           >
-            <v-list-item-action>
+            <v-list-item-action >
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
@@ -194,6 +193,46 @@ export default {
 
     ],
   }),
+  computed: {
+    filtedItems(){
+      return this.items.filter((item)=>{
+        if(item.identity=='login'){
+          return this.showLoginLink;
+        }else if(item.identity=='signup'){
+          return this.showRegisterLink;
+        }else if(item.identity=='logout'){
+          return this.showExitLink;
+        }else{
+          return true;
+        }
+      })
+    },
+    showPage(){
+      return this.$store.state.auth.showPageContent;
+    },
+    showLoginLink(){
+      if(Object.keys(this.$store.getters['auth/authData']).length){
+        return false;
+      }else{
+        return true;
+      }
+    },
+    showRegisterLink(){
+      if(Object.keys(this.$store.getters['auth/authData']).length){
+        return false;
+      }else{
+        return true;
+      }
+    },
+    showExitLink(){
+      if(Object.keys(this.$store.getters['auth/authData']).length){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+  },
   methods:{
     hideDrawer(){
       this.drawer=false;

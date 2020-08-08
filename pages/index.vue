@@ -41,7 +41,6 @@ import axios from '~/assets/js/axios'
 
 
 export default {
-  middleware:['users/homePage'],
   async fetch() {
     // Adds header: `Authorization: 123` to all requests
     let users = await this.$axios.$get('http://localhost:80/api/auth/users',{
@@ -70,6 +69,16 @@ export default {
       return this.$store.getters['auth/authData'];
     }
   },
+  created() {
+    let authData = this.$store.getters['auth/authData'];
+    if(Object.keys(authData).length) {
+      this.$store.state.auth.showPageContent=true;
+    }else{
+      this.$store.state.auth.showPageContent=true;
+
+      this.$router.push('/users/enterUser')
+    }
+  }
 
 
 }
