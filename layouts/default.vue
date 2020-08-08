@@ -139,7 +139,7 @@
           <nuxt />
       </v-container>
     </v-main>
-        
+
     <v-btn
       bottom
       color="pink"
@@ -173,6 +173,7 @@ export default {
     items: [
       { icon: 'mdi-account', text: 'ورود',identity:"login" },
       { icon: 'mdi-login', text: 'ثبت نام',identity:"signup" },
+      { icon: 'mdi-logout', text: 'خروج',identity:"logout" },
       { icon: 'mdi-contacts', text: 'کاربران' },
       { icon: 'mdi-history', text: 'تعیین زمانبندی' },
       { icon: 'mdi-message', text: 'ارسال پیامک' },
@@ -217,10 +218,14 @@ export default {
     },
     sidebarBtnAction(item){
       if(item.identity=='login'){
-        this.$router.push('login')
+        this.$router.push('/users/enterUser')
       }else if(item.identity=="signup"){
         this.$store.commit('user/openNewUserForm')
-      }else{
+      }else if(item.identity=="logout"){
+        this.$store.commit('auth/clearAuth')
+        this.$router.push('/users/enterUser')
+      }
+      else{
 
       }
     }

@@ -35,6 +35,7 @@
 import register from '~/components/users/register'
 import login from '~/components/users/login'
 export default {
+  middleware:['users/enterUser'],
   components:{
     register,
     login,

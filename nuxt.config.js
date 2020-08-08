@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+import createPersistedState from "vuex-persistedstate";
+import * as Cookies from "js-cookie";
 
 export default {
   mode: 'universal',
@@ -30,6 +32,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    
   ],
   /*
   ** Nuxt.js dev-modules

@@ -15,6 +15,8 @@ export const state = () => ({
 // commit action
 export const mutations = {
   add (state, authData) {
+    // store.dispatch('token',authData.access_token)
+
     state.auth = authData;
     //store auth user to local storage
     if(process.client){
@@ -138,6 +140,10 @@ export const actions = {
       }
       context.commit("add",response)
     } catch (error) {
+        context.commit('addErrorMessage','please fill form correctly')
+        context.commit('setStartProcess',false);
+        context.commit('setEndProcess',true);
+
       console.log(error)
     }
 
@@ -226,15 +232,17 @@ export const getters = {
 
     if(new Date().getTime() >= expires){
       //remove data from cookie
-      if(process.client){
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('token_type')
-        localStorage.removeItem('expires_in')
-      }else{
-        Cookie.remove('access_token')
-        Cookie.remove('token_type')
-        Cookie.remove('expires_in')
-      }
+      // if(process.client){
+      //   localStorage.removeItem('access_token')
+      //   localStorage.removeItem('token_type')
+      //   localStorage.removeItem('expires_in')
+      // }
+      // if (process.server) {
+      //   Cookie.remove('access_token')
+      //   Cookie.remove('token_type')
+      //   Cookie.remove('expires_in')
+      // }
+      state.commit('clearAuth')
       //redirecto to login page or register page
       this.$router.push('/users/enterUser')
       return {}
@@ -242,10 +250,7 @@ export const getters = {
     // if on client
     if(Object.keys(state.auth).length>0){
       return state.auth;
-      console.log('auth original')
-    }
-    else if(Cookie.get('access_token') !=null){
-      console.log('cookie')
+    } else if(Cookie.get('access_token') !=null){
       //get cookies
       let auth ={
         'access_token': Cookie.get('access_token'),
@@ -254,11 +259,8 @@ export const getters = {
       }
       return auth;
 
-    }
-    else if(process.client){
-      console.log('localStoraage',localStorage.getItem('access_token'))
+    } else if(process.client){
      if(localStorage.getItem('access_token') !=null){
-        console.log(Object.keys(state.auth).length)
         if(Object.keys(state.auth).length ==0){
           let auth = {
             'access_token':localStorage.getItem('access_token'),
@@ -291,6 +293,8 @@ export const getters = {
 
   getEndProcess(state){
     return state.endProcess;
-  }
+  },
+
+
 
 }

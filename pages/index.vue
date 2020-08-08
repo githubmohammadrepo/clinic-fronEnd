@@ -17,13 +17,17 @@
 
 
     <v-col cols="6" v-for="user in users" :key="user.id">
-      <v-card color="teal"  dark >
+      <v-card color="teal" dark >
         <v-card-title
           class="headline"
           v-text="user.name"
         ></v-card-title>
 
-        <v-card-subtitle v-text="user.email"></v-card-subtitle>
+        <v-card-text>
+          <p>{{user.id}}</p>
+          <p>{{user.email}}</p>
+        </v-card-text>
+
       </v-card>
     </v-col>
 
@@ -33,30 +37,27 @@
 
 <script>
 import Cookie from 'js-cookie'
-import axios from 'axios'
+import axios from '~/assets/js/axios'
 
-const myaxios = axios.create({
-  // ...
-})
-myaxios.interceptors.response.use(
-  function (response) {
-    return response.data
-  },
-  function (error) {
-    console.log(error)
-  }
-)
+
 export default {
-  async asyncData({ $axios }) {
-    const ip = await myaxios.get('http://localhost:80/api/test')
-    return {users:ip}
+  middleware:['users/homePage'],
+  async fetch() {
+    // Adds header: `Authorization: 123` to all requests
+    let users = await this.$axios.$get('http://localhost:80/api/auth/users',{
+      headers: {
+        Authorization: 'Bearer ' + this.authData.access_token //the token is a variable which holds the token
+      }
+    })
+    this.users =users.data;
   },
+  fetchOnServer: false,
   components:{
 
   },
   data(){
     return {
-
+      users:{}
     }
   },
   methods:{
@@ -66,11 +67,10 @@ export default {
   },
   computed:{
     authData(){
-
       return this.$store.getters['auth/authData'];
-
     }
   },
+
 
 }
 </script>

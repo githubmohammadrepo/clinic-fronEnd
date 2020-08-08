@@ -87,8 +87,8 @@
   export default {
     data: () => ({
       valid: true,
-      email: '',
-      password: '',
+      email: 'admin@gmail.com',
+      password: 'mohammad',
 
       rules:{
 
