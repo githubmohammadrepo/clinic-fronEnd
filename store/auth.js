@@ -1,6 +1,8 @@
 import Cookie from 'js-cookie'
 
+  // ...
 export const state = () => ({
+  count:0,
   auth:{},
   showDialog: false,
   errors: {},
@@ -14,6 +16,9 @@ export const state = () => ({
 
 // commit action
 export const mutations = {
+  increment: state => state.count++,
+  decrement: state => state.count--,
+
   add (state, authData) {
     state.auth = authData;
     //store auth user to local storage
@@ -88,7 +93,6 @@ export const mutations = {
 // dispatch action
 export const actions = {
   async loginAuth(context,payload) {
-    alert("login")
     try {
       let form = {
         'email': payload.email,
@@ -97,6 +101,7 @@ export const actions = {
       let response = await this.$axios.$post( 'http://localhost:80/api/auth/login',{ ...form })
       context.commit("openDialog");
       context.commit("add",response)
+      console.log(response)
     } catch (error) {
       console.log(error)
     }
